@@ -1,0 +1,46 @@
+﻿@model ProductViewModel
+
+@{
+    ViewData["Title"] = "Products";
+    Layout = "_Layout2";
+}
+
+<h1>Products</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Product
+            </th>
+            <th>
+                Stock
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Quantity Per Unit
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Products) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantityPerUnit)
+            </td>
+            <td><a class="btn btn-sm btn-success" asp-controller="Product" asp-action="AddToCart" asp-route-Id="@item.Id">Add</a></td>
+        </tr>
+}
+    </tbody>
+</table>
