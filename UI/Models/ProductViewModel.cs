@@ -1,4 +1,5 @@
 ﻿using Entities.Concrete;
+using Entities.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace UI.Models
     public class ProductViewModel
     {
        public List<Product> Products { get; set; }
+       public Cart Cart { get; set; }
     }
 }

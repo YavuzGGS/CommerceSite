@@ -1,0 +1,51 @@
+﻿@model CartViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+
+@if (Model.Cart.CartContents.Count == 0)
+{
+    <h2> Cart is empty.</h2>
+}
+else
+{
+    <h1>Cart</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Product
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Cart.CartContents)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Price)
+                    </td>
+                    <td><a class="btn btn-sm btn-danger" asp-controller="Cart" asp-action="RemoveFromCart" asp-route-Id="@item.Product.Id">Remove</a></td>
+                    <td><a class="btn btn-sm btn-success" asp-controller="Cart" asp-action="AddToCart" asp-route-Id="@item.Product.Id">Add</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
