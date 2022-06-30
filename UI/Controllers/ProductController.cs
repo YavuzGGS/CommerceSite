@@ -42,6 +42,7 @@ namespace UI.Controllers
             _cartSessionHelper.SetCart(cart);
             return RedirectToAction("Index", "Product");
         }
+        //add remove product, clear cart, new controller? cart view etc.
 
     }
 }

@@ -34,18 +34,18 @@ namespace UI
             services.AddSingleton<IUserService, UserManager>(); //Dependency Injection
             services.AddSingleton<IProductDal, EfProductDal>(); //Dependency Injection
             services.AddSingleton<IProductService, ProductManager>(); //Dependency Injection
-            services.AddSingleton<ICategoryService, CategoryManager>();
-            services.AddSingleton<ICategoryDal, EfCategoryDal>();
-            services.AddScoped<ICartService, CartManager>();
-            services.AddScoped<ICartSessionHelper, CartSessionHelper>();
+            services.AddSingleton<ICategoryService, CategoryManager>(); //Dependency Injection
+            services.AddSingleton<ICategoryDal, EfCategoryDal>(); //Dependency Injection
+            services.AddScoped<ICartService, CartManager>(); //Dependency Injection
+            services.AddScoped<ICartSessionHelper, CartSessionHelper>(); //Dependency Injection
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => //Enabling Cookie Auth
             {
                 options.AccessDeniedPath = "/Home/AccessDenied";
             });
             services.AddDistributedMemoryCache(); //This way ASP.NET Core will use a Memory Cache to store session variables
-            services.AddHttpContextAccessor();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSession();
+            services.AddHttpContextAccessor();                                      // Need these for session based stuff
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();     // **
+            services.AddSession();                                                  // **
             services.AddControllersWithViews();
         }
 
