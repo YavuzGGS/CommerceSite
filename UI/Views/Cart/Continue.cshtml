@@ -1,0 +1,74 @@
+﻿@model CheckOutViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<h4>@Model.User.Username</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Continue">
+            <input type="hidden" asp-for="User.Id" />
+            <div class="form-group">
+                <label asp-for="Address.Country" class="control-label"></label>
+                <input asp-for="Address.Country" class="form-control" />
+                <span asp-validation-for="Address.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.City" class="control-label"></label>
+                <input asp-for="Address.City" class="form-control" />
+                <span asp-validation-for="Address.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.DetailedAddress" class="control-label"></label>
+                <textarea asp-for="Address.DetailedAddress" class="form-control"></textarea>
+                <span asp-validation-for="Address.DetailedAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Place Order" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <h1>Cart</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Product
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Cart.CartContents)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product.Price)
+                        </td>
+                    </tr>
+                }
+            <tr>
+                <td></td>
+                <td class="font-weight-bold">Total:  </td>
+                <td>$@Model.Total </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    
+</div>

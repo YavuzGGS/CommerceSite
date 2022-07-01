@@ -26,13 +26,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Cart">Cart</a>
                         </li>
-                        @if (HttpContextAccessor.HttpContext.Session.GetString("CurrentUserName") != null)
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <div class="dropdown ml-auto">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">@HttpContextAccessor.HttpContext.Session.GetString("CurrentUserName")</button>
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">@User.Claims.FirstOrDefault(c => c.Type == "user").Value</button>
                                 <ul class="dropdown-menu">
                                     <li><a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                                    @if (HttpContextAccessor.HttpContext.Session.GetInt32("CurrentUserRole") >= 1)
+                                    @if (User.Claims.FirstOrDefault(c => c.Type == "role").Value != "Standard" )
                                     {
                                         <li class="nav-item">
                                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Users">Manage Users</a>

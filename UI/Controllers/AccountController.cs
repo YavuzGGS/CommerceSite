@@ -52,8 +52,8 @@ namespace UI.Controllers
         {
             if (_userService.Validate(user))
             {
-                HttpContext.Session.SetString("CurrentUserName", user.Username);
-                HttpContext.Session.SetInt32("CurrentUserRole", user.Role);
+                //HttpContext.Session.SetString("CurrentUserName", user.Username);
+                //HttpContext.Session.Remove("CurrentUserName");
                 var claims = new List<Claim>
                 {
                     new Claim("user", user.Username),
@@ -68,8 +68,7 @@ namespace UI.Controllers
         [Authorize]
         public async Task<IActionResult> LogoutAsync()
         {
-            HttpContext.Session.Remove("CurrentUserName");
-            HttpContext.Session.Remove("CurrentUserRole");
+            
             await HttpContext.SignOutAsync();
 
             return RedirectToAction("Index", "Home");

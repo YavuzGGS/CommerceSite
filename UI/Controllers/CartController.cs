@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,11 +17,16 @@ namespace UI.Controllers
         private IProductService _productService;
         private ICartService _cartService;
         private ICartSessionHelper _cartSessionHelper;
-        public CartController(ICartService cartService, ICartSessionHelper cartSessionHelper, IProductService productService)
+        private IUserService _userService;
+        private IAddressService _addressService;
+        public CartController(ICartService cartService, ICartSessionHelper cartSessionHelper, IProductService productService, 
+            IUserService userService, IAddressService addressService)
         {
             _cartService = cartService;
             _cartSessionHelper = cartSessionHelper;
             _productService = productService;
+            _userService = userService;
+            _addressService = addressService;
         }
         public IActionResult Cart()
         {
@@ -44,6 +51,50 @@ namespace UI.Controllers
             _cartService.RemoveFromCart(cart, Id);
             _cartSessionHelper.SetCart(cart);
             return RedirectToAction("Cart", "Cart");
+        }
+        public IActionResult EmptyCart()
+        {
+            _cartSessionHelper.Clear();
+            return RedirectToAction("Cart", "Cart");
+        }
+        [Authorize]
+        public IActionResult Continue()
+        {
+            string username = User.Claims.FirstOrDefault(c => c.Type == "user").Value;
+            var user = _userService.GetByUsername(username);
+            var model = new CheckOutViewModel
+            {
+                User = user,
+                Address =_addressService.GetAddress(user.Id),
+                Cart = _cartSessionHelper.GetCart()
+            };
+            decimal num = 0;
+            foreach (var item in model.Cart.CartContents)
+            {
+                num += item.Product.Price*item.Quantity;
+            }
+            model.Total = num.ToString("0.00");
+            return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult Continue(Address address)
+        {
+            string username = User.Claims.FirstOrDefault(c => c.Type == "user").Value;
+            var user = _userService.GetByUsername(username);
+            address.UserID = user.Id;
+            Address dbAddress = _addressService.GetById(address.UserID);
+            if (dbAddress != null)
+            {
+                address.Id = dbAddress.Id;
+                _addressService.Update(address);
+            }
+            else if (dbAddress != null)
+                {
+                    _addressService.Add(address);
+                }
+            _cartSessionHelper.Clear();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

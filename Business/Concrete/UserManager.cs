@@ -71,7 +71,6 @@ namespace Business.Concrete
         {
             _userDal.Update(user);
         }
-
         public bool Validate(User user)
         {
             var users = _userDal.GetList();
@@ -85,5 +84,6 @@ namespace Business.Concrete
             }
             return false;
         }
+
     }
 }

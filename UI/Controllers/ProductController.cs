@@ -42,15 +42,15 @@ namespace UI.Controllers
             var cart = _cartSessionHelper.GetCart(); // create and get the cart / or get the existing one
             _cartService.AddToCart(cart,product); // add the product to cart
             _cartSessionHelper.SetCart(cart); // save the cart on session storage
-            return RedirectToAction("Index", "Product");
+            return RedirectToAction("Index", "Product", new { category = product.CategoryId });
         }
-        //add remove product, clear cart, new controller? cart view etc.
         public IActionResult RemoveFromCart(int Id)
         {
+            Product product = _productService.GetById(Id); // get the product 
             var cart = _cartSessionHelper.GetCart();
             _cartService.RemoveFromCart(cart, Id);
             _cartSessionHelper.SetCart(cart);
-            return RedirectToAction("Index", "Product");
+            return RedirectToAction("Index", "Product", new { category = product.CategoryId });
         }
 
     }

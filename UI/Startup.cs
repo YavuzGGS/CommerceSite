@@ -36,6 +36,8 @@ namespace UI
             services.AddSingleton<IProductService, ProductManager>(); //Dependency Injection
             services.AddSingleton<ICategoryService, CategoryManager>(); //Dependency Injection
             services.AddSingleton<ICategoryDal, EfCategoryDal>(); //Dependency Injection
+            services.AddSingleton<IAddressDal, EfAdressDal>();
+            services.AddSingleton<IAddressService, AddressManager>();
             services.AddScoped<ICartService, CartManager>(); //Dependency Injection
             services.AddScoped<ICartSessionHelper, CartSessionHelper>(); //Dependency Injection
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => //Enabling Cookie Auth
