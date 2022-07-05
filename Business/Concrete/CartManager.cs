@@ -33,15 +33,17 @@ namespace Business.Concrete
         public void RemoveFromCart(Cart cart, int productId)
         {
             CartContent cartContent = cart.CartContents.FirstOrDefault(c => c.Product.Id == productId);
-            if(cartContent.Quantity > 1)
+            if( cartContent != null)
             {
-                cartContent.Quantity--;
+                if (cartContent.Quantity > 1)
+                {
+                    cartContent.Quantity--;
+                }
+                else
+                {
+                    cart.CartContents.Remove(item: cart.CartContents.FirstOrDefault(c => c.Product.Id == productId));
+                }
             }
-            else
-            {
-                cart.CartContents.Remove(item: cart.CartContents.FirstOrDefault(c => c.Product.Id == productId));
-            }
-            
         }
     }
 }

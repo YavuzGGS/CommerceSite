@@ -11,8 +11,11 @@ namespace Entities.Concrete
     {
         public int Id { get; set; }
         public int UserID { get; set; }
+        [Required(ErrorMessage = "Country Name Required")]
         public string Country { get; set; }
+        [Required(ErrorMessage = "City Name Required")]
         public string City { get; set; }
+        [Required(ErrorMessage = "Address Information Required")]
         public string DetailedAddress { get; set; }
     }
 }

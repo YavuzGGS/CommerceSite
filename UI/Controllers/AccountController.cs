@@ -41,6 +41,7 @@ namespace UI.Controllers
             {
                 return View();
             }
+            TempData["message"] = "Registered succesfully";
             return RedirectToAction("Index", "Home");
         }
         public IActionResult Login()
@@ -60,6 +61,7 @@ namespace UI.Controllers
                     new Claim("role", _userService.RoleToString(user))
                 };
                 await HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookies", "user", "role")));
+                TempData["message"] = "Logged in successfully";
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.ErrorMsgLogin = true;
@@ -70,7 +72,7 @@ namespace UI.Controllers
         {
             
             await HttpContext.SignOutAsync();
-
+            TempData["message"] = "Logged out succesfully";
             return RedirectToAction("Index", "Home");
         }
         [Authorize]
@@ -85,6 +87,7 @@ namespace UI.Controllers
         [Authorize(Roles = "SuperAdmin")]
         public IActionResult Delete(int id)
         {
+            TempData["message"] = _userService.GetById(id).Username + " deleted";
             _userService.Delete(_userService.GetById(id));
             return RedirectToAction("Users", "Account");
         }
@@ -106,6 +109,7 @@ namespace UI.Controllers
                 return View();
             }
             _userService.Update(user);
+            TempData["message"] = user.Username +" updated successfully";
             return RedirectToAction("Users", "Account");
         }
     }

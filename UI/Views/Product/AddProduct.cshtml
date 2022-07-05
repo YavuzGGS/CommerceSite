@@ -1,0 +1,49 @@
+﻿@model ProductViewModel
+@{
+    ViewData["Title"] = "AddProduct";
+}
+<h1 class="text-center">Add Product</h1>
+
+<hr />
+<div class="row d-flex justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="AddProduct">
+            <div class="form-group">
+                <label asp-for="Product.ProductName" class="control-label">Product Name</label>
+                <input asp-for="Product.ProductName" class="form-control" />
+                <span asp-validation-for="Product.ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.Stock" class="control-label"></label>
+                <input asp-for="Product.Stock" class="form-control" />
+                <span asp-validation-for="Product.Stock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.Price" class="control-label"></label>
+                <input asp-for="Product.Price" class="form-control" />
+                <span asp-validation-for="Product.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.QuantityPerUnit" class="control-label">Quantity Per Unit</label>
+                <input asp-for="Product.QuantityPerUnit" class="form-control" />
+                <span asp-validation-for="Product.QuantityPerUnit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.CategoryId">Select list:</label>
+                <select asp-for="Product.CategoryId" class="form-control">
+                    <option value="1">Bevarage</option>
+                    <option value="2">Condiment</option>
+                    <option value="3">Confection</option>
+                    <option value="4">Dairy Product</option>
+                    <option value="5">Grain/Cereal</option>
+                    <option value="6">Meat/Poultry</option>
+                    <option value="7">Produce</option>
+                    <option value="8">Seafood</option>
+                </select>
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

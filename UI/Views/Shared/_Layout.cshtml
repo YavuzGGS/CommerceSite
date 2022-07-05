@@ -26,20 +26,24 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Cart">Cart</a>
                         </li>
+
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <div class="dropdown ml-auto">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">@User.Claims.FirstOrDefault(c => c.Type == "user").Value</button>
+                            <li class="nav-item ml-auto">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="AddProduct">Add Product</a>
+                            </li>
+                            <li class="dropdown">
+                                <button class="btn btn-primary btn-sm dropdown ml-auto dropdown-toggle" type="button" data-toggle="dropdown">@User.Claims.FirstOrDefault(c => c.Type == "user").Value</button>
                                 <ul class="dropdown-menu">
                                     <li><a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                                    @if (User.Claims.FirstOrDefault(c => c.Type == "role").Value != "Standard" )
+                                    @if (User.Claims.FirstOrDefault(c => c.Type == "role").Value != "Standard")
                                     {
                                         <li class="nav-item">
                                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Users">Manage Users</a>
                                         </li>
                                     }
                                 </ul>
-                            </div>
+                            </li>
                         }
                         else
                         {
@@ -53,6 +57,14 @@
         </nav>
     </header>
     <div class="container">
+        <div class="col">
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-primary">
+                    @TempData["message"]
+                </div>
+            }
+        </div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

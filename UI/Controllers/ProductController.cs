@@ -42,6 +42,7 @@ namespace UI.Controllers
             var cart = _cartSessionHelper.GetCart(); // create and get the cart / or get the existing one
             _cartService.AddToCart(cart,product); // add the product to cart
             _cartSessionHelper.SetCart(cart); // save the cart on session storage
+            TempData["message"] = product.ProductName + " added to cart";
             return RedirectToAction("Index", "Product", new { category = product.CategoryId });
         }
         public IActionResult RemoveFromCart(int Id)
@@ -50,7 +51,26 @@ namespace UI.Controllers
             var cart = _cartSessionHelper.GetCart();
             _cartService.RemoveFromCart(cart, Id);
             _cartSessionHelper.SetCart(cart);
+            TempData["message"] = product.ProductName + " removed from cart";
             return RedirectToAction("Index", "Product", new { category = product.CategoryId });
+        }
+        [Authorize]
+        public IActionResult AddProduct()
+        {
+            var model = new ProductViewModel
+            {
+                Product = new Product()
+            };
+            return View(model);
+        }
+        //maybe add new role that can add products (seller)
+        [Authorize]
+        [HttpPost]
+        public IActionResult AddProduct(Product product)
+        {
+           _productService.Add(product);
+           TempData["message"] = product.ProductName + " added to the list";
+           return RedirectToAction("AddProduct");
         }
 
     }

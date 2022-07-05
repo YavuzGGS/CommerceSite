@@ -28,8 +28,11 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <div class="dropdown ml-auto">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">@User.Claims.FirstOrDefault(c => c.Type == "user").Value</button>
+                            <li class="nav-item ml-auto">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="AddProduct">Add Product</a>
+                            </li>
+                            <li class="dropdown">
+                                <button class="btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">@User.Claims.FirstOrDefault(c => c.Type == "user").Value</button>
                                 <ul class="dropdown-menu">
                                     <li><a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
                                     @if (User.Claims.FirstOrDefault(c => c.Type == "role").Value != "Standard")
@@ -39,7 +42,7 @@
                                         </li>
                                     }
                                 </ul>
-                            </div>
+                            </li>
                         }
                         else
                         {
@@ -54,6 +57,14 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <div class="col">
+                @if (TempData["message"] != null)
+                {
+                    <div class="alert alert-primary">
+                        @TempData["message"]
+                    </div>
+                }
+            </div>
             <div class="row">
                 <div class=" col-sm-3">@await Component.InvokeAsync(name: "CategoryList") </div>
                 <div class=" col-sm-9">@RenderBody()</div>

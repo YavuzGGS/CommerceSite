@@ -3,9 +3,11 @@ using Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using UI.Helpers;
 using UI.Models;
@@ -42,19 +44,22 @@ namespace UI.Controllers
             var cart = _cartSessionHelper.GetCart(); // create and get the cart / or get the existing one
             _cartService.AddToCart(cart, product); // add the product to cart
             _cartSessionHelper.SetCart(cart); // save the cart on session storage
+            TempData["message"] = product.ProductName + "added to cart";
             return RedirectToAction("Cart", "Cart");
         }
-        //add remove product, clear cart, new controller? cart view etc.
         public IActionResult RemoveFromCart(int Id)
         {
+            Product product = _productService.GetById(Id);
             var cart = _cartSessionHelper.GetCart();
             _cartService.RemoveFromCart(cart, Id);
             _cartSessionHelper.SetCart(cart);
+            TempData["message"] = product.ProductName + "removed to cart";
             return RedirectToAction("Cart", "Cart");
         }
         public IActionResult EmptyCart()
         {
             _cartSessionHelper.Clear();
+            TempData["message"] ="Cart emptied";
             return RedirectToAction("Cart", "Cart");
         }
         [Authorize]
@@ -80,6 +85,11 @@ namespace UI.Controllers
         [HttpPost]
         public IActionResult Continue(Address address)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["addressErr"] = true;
+                return RedirectToAction("Continue", "Cart");
+            }
             string username = User.Claims.FirstOrDefault(c => c.Type == "user").Value;
             var user = _userService.GetByUsername(username);
             address.UserID = user.Id;
@@ -94,6 +104,7 @@ namespace UI.Controllers
                     _addressService.Add(address);
                 }
             _cartSessionHelper.Clear();
+            TempData["message"] = "Order Confirmed";
             return RedirectToAction("Index", "Home");
         }
     }
