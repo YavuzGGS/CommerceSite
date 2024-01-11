@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess\InternshipProject2.DataAccess.csproj" />
-    <ProjectReference Include="..\Entities\InternshipProject2.Entities.csproj" />
+    <ProjectReference Include="..\Core\CommerceSite.Core.csproj" />
   </ItemGroup>
 
 </Project>
