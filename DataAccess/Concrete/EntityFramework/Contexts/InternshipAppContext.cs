@@ -11,9 +11,13 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(connectionString: @"Server=(localdb)\MSSQLLocalDB;initial catalog=InternshipApp;integrated security=true");
+            //"Data Source=.;Initial Catalog=DB name;Integrated Security=True;MultipleActiveResultSets=True"
+            
+            //optionsBuilder.UseSqlServer(connectionString: @"Server=(localdb)\MSSQLLocalDB;initial catalog=CommerceSite;integrated security=true");
+            optionsBuilder.UseSqlServer(connectionString: @"Data Source=.;Initial Catalog=CommerceSite;Integrated Security=True;MultipleActiveResultSets=True");
+
         }
-        
+
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
